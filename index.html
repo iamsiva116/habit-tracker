@@ -1,16 +1,140 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my website</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>System • Habit Tracker</title>
+  <link rel="stylesheet" href="style.css" />
 
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <h1 id="myh1"></h1>
-    <p id="myp"></p>
-    
-    <script src="index.js"></script>
+  <div class="bg-glow"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="sigil"></div>
+      <div>
+        <div class="brand-title">SYSTEM</div>
+        <div class="brand-sub">Habit Tracker • Solo UI</div>
+      </div>
+    </div>
+
+    <div class="today">
+      <div class="chip">
+        <span class="dot"></span>
+        <span id="todayText">Loading date…</span>
+      </div>
+      <button id="resetBtn" class="btn ghost" title="Clears all data locally">Reset</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- LEFT: Add Habit + Habit List -->
+    <section class="panel">
+      <div class="panel-title">Create Habit</div>
+
+      <form id="habitForm" class="form">
+        <label class="label">
+          Habit Name
+          <input id="habitName" class="input" maxlength="40" placeholder="E.g., Pushups / Study / Reading" required />
+        </label>
+
+        <div class="row">
+          <label class="label">
+            Type
+            <select id="habitType" class="input">
+              <option value="tick">Tick (Done/Not Done)</option>
+              <option value="numeric">Numeric (Value)</option>
+            </select>
+          </label>
+
+          <label class="label" id="unitWrap">
+            Unit (optional)
+            <input id="habitUnit" class="input" maxlength="12" placeholder="min, km, pages" />
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="label">
+            Target (optional)
+            <input id="habitTarget" class="input" type="number" step="1" placeholder="E.g., 30" />
+          </label>
+
+          <label class="label">
+            Rank
+            <select id="habitRank" class="input">
+              <option value="E">E</option>
+              <option value="D">D</option>
+              <option value="C" selected>C</option>
+              <option value="B">B</option>
+              <option value="A">A</option>
+              <option value="S">S</option>
+            </select>
+          </label>
+        </div>
+
+        <button class="btn primary" type="submit">Add Habit</button>
+      </form>
+
+      <div class="divider"></div>
+
+      <div class="panel-title">Your Habits</div>
+      <div id="habitList" class="habit-list"></div>
+
+      <div class="hint">
+        Tip: Mark today’s habit on the right side. All data is stored locally in your browser.
+      </div>
+    </section>
+
+    <!-- RIGHT: Daily Log + Charts -->
+    <section class="panel">
+      <div class="panel-title">Daily System Log</div>
+
+      <div class="daily-head">
+        <div class="level-card">
+          <div class="level-title">Daily Check</div>
+          <div class="level-sub" id="streakText">Select a habit to view streak.</div>
+        </div>
+
+        <div class="date-card">
+          <div class="date-title">Log Date</div>
+          <input id="logDate" class="input" type="date" />
+        </div>
+      </div>
+
+      <div id="selectedHabitArea" class="selected-area">
+        <div class="empty-state">
+          <div class="empty-title">No habit selected</div>
+          <div class="empty-sub">Choose a habit from the left panel to log and view charts.</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="panel-title">Analytics</div>
+      <div id="chartsArea" class="charts">
+        <div class="chart-card">
+          <div class="chart-title">Overview</div>
+          <div class="chart-sub">Charts appear when you select a habit.</div>
+          <canvas id="chartMain"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-title">Last 7 Days</div>
+          <div class="chart-sub" id="chartSub2">—</div>
+          <canvas id="chartSecondary"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>“Arise.”</span>
+    <span class="muted">Built for GitHub Pages • No backend</span>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
